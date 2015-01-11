@@ -77,7 +77,10 @@ Theorem silly_ex :
      evenb 3 = true ->
      oddb 4 = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros eq1 eq2.
+  apply eq1. apply eq2.
+Qed.
 (** [] *)
 
 (** To use the [apply] tactic, the (conclusion of the) fact
@@ -116,7 +119,10 @@ Theorem rev_exercise1 : forall (l l' : list nat),
      l = rev l' ->
      l' = rev l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros l l' eq.
+  rewrite -> eq. symmetry. apply rev_involutive.
+Qed.
 (** [] *)
 
 (** **** Exercise: 1 star, optional (apply_rewrite)  *)
