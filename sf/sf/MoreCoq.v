@@ -189,7 +189,10 @@ Example trans_eq_exercise : forall (n m o p : nat),
      (n + p) = m ->
      (n + p) = (minustwo o). 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros n m o p eq1 eq2.
+  apply trans_eq with m. apply eq2. apply eq1.
+Qed.
 (** [] *)
 
 
@@ -217,7 +220,7 @@ Proof.
     constructors are injective, and the values built from distinct
     constructors are never equal.  For lists, the [cons] constructor is
     injective and [nil] is different from every non-empty list.  For
-    booleans, [true] and [false] are unequal.  (Since neither [true]
+    booleans, [true] and [false] are unequal.p s  (Since neither [true]
     nor [false] take any arguments, their injectivity is not an issue.) *)
 
 (** Coq provides a tactic called [inversion] that allows us to exploit
@@ -275,7 +278,10 @@ Example sillyex1 : forall (X : Type) (x y z : X) (l j : list X),
      y :: l = x :: j ->
      x = y.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros X x y z l j eq1 eq2.
+  inversion eq2. reflexivity.
+Qed.
 (** [] *)
 
 Theorem silly6 : forall (n : nat),
@@ -296,7 +302,10 @@ Example sillyex2 : forall (X : Type) (x y z : X) (l j : list X),
      y :: l = z :: j ->
      x = z.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros X x y z l j eq1 eq2.
+  inversion eq1.
+Qed.
 (** [] *)
 
 (** While the injectivity of constructors allows us to reason
@@ -319,12 +328,19 @@ Proof. intros A B f x y eq. rewrite eq.  reflexivity.  Qed.
 Theorem beq_nat_0_l : forall n,
    beq_nat 0 n = true -> n = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros n eq. destruct n. reflexivity.
+  inversion eq.
+Qed.
 
 Theorem beq_nat_0_r : forall n,
    beq_nat n 0 = true -> n = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros n eq. destruct n. reflexivity.
+  inversion eq.
+Qed.
+
 (** [] *)
 
 
@@ -389,7 +405,15 @@ Theorem plus_n_n_injective : forall n m,
 Proof.
   intros n. induction n as [| n'].
     (* Hint: use the plus_n_Sm lemma *)
-    (* FILL IN HERE *) Admitted.
+    (* FILL IN HERE *)
+    intros. simpl in H. rewrite H. destruct m as [| m'].
+    reflexivity.
+    inversion H.
+    intros. simpl in H. rewrite <- plus_n_Sm in H. destruct m as [| m'].
+    simpl in H. inversion H.
+    simpl in H. rewrite <- plus_n_Sm in H. inversion H. apply IHn' in H1. rewrite H1. reflexivity.
+Qed.
+
 (** [] *)
 
 (* ###################################################### *)
@@ -535,7 +559,18 @@ Proof.
 Theorem beq_nat_true : forall n m,
     beq_nat n m = true -> n = m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros n.
+  induction n as [| n'].
+    intros m eq.
+    destruct m as [| m'].
+      reflexivity. inversion eq.
+    intros m eq.
+    destruct m as [| m'].
+      inversion eq. inversion eq.
+      apply f_equal. apply IHn'. apply H0.
+Qed.
+  
 (** [] *)
 
 (** **** Exercise: 2 stars, advanced (beq_nat_true_informal)  *)
@@ -708,7 +743,13 @@ Theorem index_after_last: forall (n : nat) (X : Type) (l : list X),
      length l = n ->
      index n l = None.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros n X l. generalize dependent n. induction l as [| x l'].
+  intros n eq. simpl. reflexivity.
+  intros n eq. destruct n.
+    simpl. inversion eq.
+    simpl. apply IHl'. inversion eq. reflexivity.
+Qed.
 (** [] *)
 
 (** **** Exercise: 3 stars, advanced, optional (index_after_last_informal)  *)
@@ -731,7 +772,14 @@ Theorem length_snoc''' : forall (n : nat) (X : Type)
      length l = n ->
      length (snoc l v) = S n. 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros n X v l.
+  generalize dependent n. induction l as [| w l'].
+  intros n eq.
+    simpl. inversion eq. simpl. reflexivity.
+  intros n eq.
+    simpl. apply f_equal. inversion eq. simpl. apply IHl'. reflexivity.
+Qed.
 (** [] *)
 
 (** **** Exercise: 3 stars, optional (app_length_cons)  *)
@@ -743,7 +791,14 @@ Theorem app_length_cons : forall (X : Type) (l1 l2 : list X)
      length (l1 ++ (x :: l2)) = n ->
      S (length (l1 ++ l2)) = n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros X l1 l2 x. induction l1 as [| a l1'].
+  
+  intros n eq.
+    simpl in eq. simpl. apply eq.
+  intros n eq.
+    simpl. simpl in eq. inversion eq. apply f_equal. apply IHl1'. reflexivity.
+Qed.
 (** [] *)
 
 (** **** Exercise: 4 stars, optional (app_length_twice)  *)
@@ -753,8 +808,17 @@ Theorem app_length_twice : forall (X:Type) (n:nat) (l:list X),
      length l = n ->
      length (l ++ l) = n + n.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  (* FILL IN HERE *)
+  intros X n l.
+  generalize dependent n. induction l as [| a l'].
+  
+  intros n eq.
+    simpl. inversion eq. simpl. reflexivity.
+  intros n eq.
+    destruct n as [| n'].
+      simpl. inversion eq.
+      simpl. rewrite <- plus_n_Sm. rewrite <- IHl'. apply f_equal.
+      Admitted.
 
 
 (** **** Exercise: 3 stars, optional (double_induction)  *)
