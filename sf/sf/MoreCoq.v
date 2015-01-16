@@ -445,7 +445,7 @@ Proof.
     SCase "m = S m'". inversion eq. 
   Case "n = S n'". intros eq. destruct m as [| m'].
     SCase "m = O". inversion eq.
-    SCase "m = S m'".  apply f_equal. 
+    SCase "m = S m'".  apply f_equal.
       (* Here we are stuck.  The induction hypothesis, [IHn'], does
          not give us [n' = m'] -- there is an extra [S] in the
          way -- so the goal is not provable. *)
@@ -831,7 +831,8 @@ Theorem double_induction: forall (P : nat -> nat -> Prop),
   (forall m n, P m n -> P (S m) (S n)) ->
   forall m n, P m n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  Admitted.
 (** [] *)
 
 

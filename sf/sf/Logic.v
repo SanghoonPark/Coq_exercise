@@ -120,7 +120,7 @@ Print silly_implication.
 (** The meaning of a proposition is given by _rules_ and _definitions_
     that say how to construct _evidence_ for the truth of the
     proposition from other evidence.
-
+    
     - Typically, rules are defined _inductively_, just like any other
       datatype.
 
@@ -160,7 +160,7 @@ Notation "P /\ Q" := (and P Q) : type_scope.
 
 (** (The [type_scope] annotation tells Coq that this notation
     will be appearing in propositions, not values.) *)
-
+    
 (** Consider the "type" of the constructor [conj]: *)
 
 Check conj.
@@ -214,7 +214,11 @@ Proof.
 Theorem proj2 : forall P Q : Prop, 
   P /\ Q -> Q.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros P Q H.
+  destruct H.
+  apply H0.
+Qed.
 (** [] *)
 
 Theorem and_commut : forall P Q : Prop, 
@@ -238,7 +242,12 @@ Theorem and_assoc : forall P Q R : Prop,
 Proof.
   intros P Q R H.
   destruct H as [HP [HQ HR]].
-(* FILL IN HERE *) Admitted.
+(* FILL IN HERE *)
+  split. split.
+    apply HP.
+    apply HQ.
+    apply HR.
+Qed.
 (** [] *)
 
 
@@ -278,12 +287,24 @@ Proof.
 Theorem iff_refl : forall P : Prop, 
   P <-> P.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros P.
+  split.
+  intros H. apply H.
+  intros H. apply H.
+Qed.
+
 
 Theorem iff_trans : forall P Q R : Prop, 
   (P <-> Q) -> (Q <-> R) -> (P <-> R).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros P Q R HPQ HQR.
+  inversion HPQ. inversion HQR.
+  split.
+  intros. apply H in H3. apply H1 in H3. apply H3.
+  intros. apply H2 in H3. apply H0 in H3. apply H3.
+Qed.
 
 (** Hint: If you have an iff hypothesis in the context, you can use
     [inversion] to break it into two separate implications.  (Think
@@ -422,19 +443,46 @@ Proof.
 Theorem andb_false : forall b c,
   andb b c = false -> b = false \/ c = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros b c H.
+  destruct b.
+    destruct c.
+      inversion H.
+      right. apply H.
+    destruct c.
+      left. apply H.
+      right. apply H.
+Qed.
 
 (** **** Exercise: 2 stars, optional (orb_false)  *)
 Theorem orb_prop : forall b c,
   orb b c = true -> b = true \/ c = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros b c H.
+  destruct b.
+    destruct c.
+      left. apply H.
+      left. apply H.
+    destruct c.
+      right. apply H.
+      inversion H.
+Qed.
 
 (** **** Exercise: 2 stars, optional (orb_false_elim)  *)
 Theorem orb_false_elim : forall b c,
   orb b c = false -> b = false /\ c = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros b c H.
+  destruct b.
+    destruct c.
+      inversion H.
+      split. apply H. inversion H.
+    destruct c.
+      inversion H.
+      split. reflexivity. reflexivity.
+Qed.
 (** [] *)
 
 
@@ -505,6 +553,7 @@ Proof.
     trivial to give evidence.) *)
 
 (* FILL IN HERE *)
+Inductive True : Prop := true.
 (** [] *)
 
 (** However, unlike [False], which we'll use extensively, [True] is
@@ -554,7 +603,7 @@ Theorem double_neg : forall P : Prop,
   P -> ~~P.
 Proof.
   (* WORKED IN CLASS *)
-  intros P H. unfold not. intros G. apply G. apply H.  Qed.
+  intros P H. unfold not. intros G. apply G. apply G in H. inversion H. Qed.
 
 (** **** Exercise: 2 stars, advanced (double_neg_inf)  *)
 (** Write an informal proof of [double_neg]:
@@ -570,14 +619,23 @@ Proof.
 Theorem contrapositive : forall P Q : Prop,
   (P -> Q) -> (~Q -> ~P).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros P Q H.
+  
+  unfold not. intros H'. intros H''.
+  apply H in H''. apply H' in H''. apply H''.
+Qed. 
 (** [] *)
 
 (** **** Exercise: 1 star (not_both_true_and_false)  *)
 Theorem not_both_true_and_false : forall P : Prop,
   ~ (P /\ ~P).
 Proof. 
-  (* FILL IN HERE *) Admitted.
+(* FILL IN HERE *)
+  intros P.
+
+  unfold not. apply contradiction_implies_anything.
+Qed.
 (** [] *)
 
 (** **** Exercise: 1 star, advanced (informal_not_PNP)  *)
