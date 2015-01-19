@@ -553,7 +553,7 @@ Proof.
     trivial to give evidence.) *)
 
 (* FILL IN HERE *)
-(* Inductive True : Prop := true. *)
+Inductive True : Prop := true.
 (** [] *)
 
 (** However, unlike [False], which we'll use extensively, [True] is
@@ -681,26 +681,6 @@ Definition implies_to_or := forall P Q:Prop,
   (P->Q) -> (~P\/Q). 
 
 (* FILL IN HERE *)
-Theorem perice__classic: peirce -> classic.
-Proof.
-  unfold peirce. unfold classic.
-  intros peir P NNP.
-    unfold not in NNP. apply peir with (Q:= False).
-    intros H. apply NNP in H. inversion H.
-Qed.
-
-Theorem classic__excluded_middle: classic -> excluded_middle.
-Proof.
-  unfold classic. unfold excluded_middle.
-  intros clsc P. apply clsc.
-    unfold not. intros H. apply H.
-    right. intros H'. apply H. left. apply H'.
-Qed.
-
-Theorem excluded_middle__de_morgan_not_and_not: excluded_middle -> de_morgan_not_and_not.
-Proof.
-  unfold excluded_middle. unfold de_morgan_not_and_not.
-  intros excld P Q H. Admitted.
 (** [] *)
 
 (** **** Exercise: 3 stars (excluded_middle_irrefutable)  *)
@@ -711,10 +691,7 @@ we would have both [~ (P \/ ~P)] and [~ ~ (P \/ ~P)], a contradiction. *)
 
 Theorem excluded_middle_irrefutable:  forall (P:Prop), ~ ~ (P \/ ~ P).  
 Proof.
-  (* FILL IN HERE *)
-  intros. unfold not. intros H. apply H.
-  right. intros H'. apply H. left. apply H'.
-Qed.
+  (* FILL IN HERE *) Admitted.
 
 
 (* ########################################################## *)
@@ -759,33 +736,14 @@ Theorem false_beq_nat : forall n m : nat,
      n <> m ->
      beq_nat n m = false.
 Proof. 
-  (* FILL IN HERE *)
-  intros n. induction n.
-   destruct m.
-     intros H. apply ex_falso_quodlibet. apply H. reflexivity.
-     reflexivity.
-   destruct m.
-     reflexivity.
-     intros H. simpl. apply IHn.
-     intros H'. apply H. rewrite H'. reflexivity.
-Qed.
-    
+  (* FILL IN HERE *) Admitted.
 (** [] *)
 
 (** **** Exercise: 2 stars, optional (beq_nat_false)  *)
 Theorem beq_nat_false : forall n m,
   beq_nat n m = false -> n <> m.
 Proof.
-  (* FILL IN HERE *)
-  intros n. induction n.
-    destruct m.
-      intros H. inversion H.
-      intros H. unfold not. intros H'. inversion H'.
-    destruct m.
-      intros H. unfold not. intros H'. inversion H'.
-      intros H. unfold not. apply IHn in H. unfold not in H. intros H'. apply H. apply eq_add_S in H'. apply H'.
-Qed.
-      
+  (* FILL IN HERE *) Admitted.
 (** [] *)
 
 
