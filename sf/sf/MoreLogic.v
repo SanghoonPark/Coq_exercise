@@ -110,7 +110,12 @@ Qed.
 Theorem dist_not_exists : forall (X:Type) (P : X -> Prop),
   (forall x, P x) -> ~ (exists x, ~ P x).
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros. unfold not.
+  intros.
+  inversion H0. apply H1. apply H.
+Qed.
+  
 (** [] *)
 
 (** **** Exercise: 3 stars, optional (not_exists_dist)  *)
@@ -122,7 +127,10 @@ Theorem not_exists_dist :
   forall (X:Type) (P : X -> Prop),
     ~ (exists x, ~ P x) -> (forall x, P x).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros.
+  unfold not in H0. unfold excluded_middle in H. unfold not in H.
+  
 (** [] *)
 
 (** **** Exercise: 2 stars (dist_exists_or)  *)
