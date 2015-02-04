@@ -636,40 +636,6 @@ Proof.
 Qed.
     
 
-(** **** Exercise: 4 stars (palindromes)  *)
-(** A palindrome is a sequence that reads the same backwards as
-    forwards.
-
-    - Define an inductive proposition [pal] on [list X] that
-      captures what it means to be a palindrome. (Hint: You'll need
-      three cases.  Your definition should be based on the structure
-      of the list; just having a single constructor
-        c : forall l, l = rev l -> pal l
-      may seem obvious, but will not work very well.)
- 
-    - Prove [pal_app_rev] that 
-       forall l, pal (l ++ rev l).
-    - Prove [pal_rev] that 
-       forall l, pal l -> l = rev l.
-*)
-
-(* FILL IN HERE *)
-(** [] *)
-
-(* Again, the converse direction is much more difficult, due to the
-lack of evidence. *)
-
-(** **** Exercise: 5 stars, optional (palindrome_converse)  *)
-(** Using your definition of [pal] from the previous exercise, prove
-    that
-     forall l, l = rev l -> pal l.
-*)
-
-(* FILL IN HERE *)
-(** [] *)
-
-
-
 (* ####################################################### *)
 (** ** Relations *)
 
@@ -944,68 +910,8 @@ Inductive R : nat -> nat -> nat -> Prop :=
 []
 *)
 
-(** **** Exercise: 3 stars, optional (R_fact)  *)  
-(** Relation [R] actually encodes a familiar function.  State and prove two
-    theorems that formally connects the relation and the function. 
-    That is, if [R m n o] is true, what can we say about [m],
-    [n], and [o], and vice versa?
-*)
-
-(* FILL IN HERE *)
-(** [] *)
 
 End R.
-
-(** **** Exercise: 4 stars, advanced (subsequence)  *)
-(** A list is a _subsequence_ of another list if all of the elements
-    in the first list occur in the same order in the second list,
-    possibly with some extra elements in between. For example,
-    [1,2,3]
-    is a subsequence of each of the lists
-    [1,2,3]
-    [1,1,1,2,2,3]
-    [1,2,7,3]
-    [5,6,1,9,9,2,7,3,8]
-    but it is _not_ a subsequence of any of the lists
-    [1,2]
-    [1,3]
-    [5,6,2,1,7,3,8]
-
-    - Define an inductive proposition [subseq] on [list nat] that
-      captures what it means to be a subsequence. (Hint: You'll need
-      three cases.)
-
-    - Prove [subseq_refl] that subsequence is reflexive, that is, 
-      any list is a subsequence of itself.  
-
-    - Prove [subseq_app] that for any lists [l1], [l2], and [l3], 
-      if [l1] is a subsequence of [l2], then [l1] is also a subsequence
-      of [l2 ++ l3].
-
-    - (Optional, harder) Prove [subseq_trans] that subsequence is 
-      transitive -- that is, if [l1] is a subsequence of [l2] and [l2] 
-      is a subsequence of [l3], then [l1] is a subsequence of [l3].  
-      Hint: choose your induction carefully!
-*)
-
-(* FILL IN HERE *)
-(** [] *)
-
-(** **** Exercise: 2 stars, optional (R_provability)  *)
-(** Suppose we give Coq the following definition:
-    Inductive R : nat -> list nat -> Prop :=
-      | c1 : R 0 []
-      | c2 : forall n l, R n l -> R (S n) (n :: l)
-      | c3 : forall n l, R (S n) l -> R n l.
-    Which of the following propositions are provable?
-
-    - [R 2 [1,0]]
-    - [R 1 [1,2,1,0]]
-    - [R 6 [3,2,1,0]]
-*)
-
-(** [] *)
-
 
 (* ##################################################### *)
 (** * Programming with Propositions *)

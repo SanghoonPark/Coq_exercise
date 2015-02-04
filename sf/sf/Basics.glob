@@ -1,4 +1,4 @@
-DIGEST ebb327f03b897432351c2918b0bc7f49
+DIGEST 1c40a636fde9a66863dd519d147852c8
 FBasics
 def 361:365 <> admit
 R379:379 Basics <> T var
@@ -582,18 +582,18 @@ R34050:34050 Basics <> b var
 R34056:34058 Basics <> orb def
 R34062:34062 Basics <> c var
 R34060:34060 Basics <> b var
-R36324:36327 Coq.Init.Peano <> plus def
-not 36312 <> :nat_scope:x_'+'_x
-R36451:36454 Coq.Init.Peano <> mult def
-not 36439 <> :nat_scope:x_'*'_x
-def 37868:37872 <> plus'
-R37879:37881 Coq.Init.Datatypes <> nat ind
-R37889:37891 Coq.Init.Datatypes <> nat ind
-R37896:37898 Coq.Init.Datatypes <> nat ind
-R37911:37911 Basics <> n var
-R37924:37924 Coq.Init.Datatypes <> O constr
-R37929:37929 Basics <> m var
-R37937:37937 Coq.Init.Datatypes <> S constr
-R37945:37945 Coq.Init.Datatypes <> S constr
-R37948:37952 Basics <> plus' def
-R37957:37957 Basics <> m var
+R34641:34644 Coq.Init.Peano <> plus def
+not 34629 <> :nat_scope:x_'+'_x
+R34768:34771 Coq.Init.Peano <> mult def
+not 34756 <> :nat_scope:x_'*'_x
+def 36185:36189 <> plus'
+R36196:36198 Coq.Init.Datatypes <> nat ind
+R36206:36208 Coq.Init.Datatypes <> nat ind
+R36213:36215 Coq.Init.Datatypes <> nat ind
+R36228:36228 Basics <> n var
+R36241:36241 Coq.Init.Datatypes <> O constr
+R36246:36246 Basics <> m var
+R36254:36254 Coq.Init.Datatypes <> S constr
+R36262:36262 Coq.Init.Datatypes <> S constr
+R36265:36269 Basics <> plus' def
+R36274:36274 Basics <> m var

@@ -291,16 +291,6 @@ Proof.
 (** [] *)
 
 
-(** **** Exercise: 1 star (destruct_induction)  *)
-(** Briefly explain the difference between the tactics
-    [destruct] and [induction].  
-
-(* FILL IN HERE *)
-
-*)
-(** [] *)
-
-
 (* ###################################################################### *)
 (** * Proofs Within Proofs *)
 
@@ -571,8 +561,11 @@ Admitted.
 Theorem mult_assoc : forall n m p : nat,
   n * (m * p) = (n * m) * p.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros n m p.
+  induction n.
+    simpl. reflexivity.
+    simpl. rewrite -> IHn. rewrite -> mult_plus_distr_r. reflexivity.
+Qed.
 
 (** **** Exercise: 2 stars, optional (beq_nat_refl)  *)
 (** Prove the following theorem.  Putting [true] on the left-hand side
@@ -584,7 +577,12 @@ problem using the theorem no matter which way we state it. *)
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros.
+  induction n.
+    simpl. reflexivity.
+    simpl. apply IHn.
+Qed.
 (** [] *)
 
 (** **** Exercise: 2 stars, optional (plus_swap')  *)
@@ -602,56 +600,15 @@ Proof.
 Theorem plus_swap' : forall n m p : nat, 
   n + (m + p) = m + (n + p).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* FILL IN HERE *)
+  intros.
+  rewrite plus_assoc. rewrite plus_assoc.
+  replace (n+m) with (m+n).
+    reflexivity.
+    rewrite plus_comm. reflexivity.
+Qed.
 (** [] *)
 
-
-(** **** Exercise: 3 stars (binary_commute)  *)
-(** Recall the [increment] and [binary-to-unary] functions that you
-    wrote for the [binary] exercise in the [Basics] chapter.  Prove
-    that these functions commute -- that is, incrementing a binary
-    number and then converting it to unary yields the same result as
-    first converting it to unary and then incrementing.
-    Name your theorem [bin_to_nat_pres_incr].
-
-    (Before you start working on this exercise, please copy the
-    definitions from your solution to the [binary] exercise here so
-    that this file can be graded on its own.  If you find yourself
-    wanting to change your original definitions to make the property
-    easier to prove, feel free to do so.) *)
-
-(* FILL IN HERE *)
-(** [] *)
-
-
-(** **** Exercise: 5 stars, advanced (binary_inverse)  *)
-(** This exercise is a continuation of the previous exercise about
-    binary numbers.  You will need your definitions and theorems from
-    the previous exercise to complete this one.
-
-    (a) First, write a function to convert natural numbers to binary
-        numbers.  Then prove that starting with any natural number,
-        converting to binary, then converting back yields the same
-        natural number you started with.
-
-    (b) You might naturally think that we should also prove the
-        opposite direction: that starting with a binary number,
-        converting to a natural, and then back to binary yields the
-        same number we started with.  However, it is not true!
-        Explain what the problem is.
-
-    (c) Define a "direct" normalization function -- i.e., a function
-        [normalize] from binary numbers to binary numbers such that,
-        for any binary number b, converting to a natural and then back
-        to binary yields [(normalize b)].  Prove it.  (Warning: This
-        part is tricky!)
-
-    Again, feel free to change your earlier definitions if this helps
-    here. 
-*)
-
-(* FILL IN HERE *)
-(** [] *)
 
 (* ###################################################################### *)
 (** * Formal vs. Informal Proof (Advanced) *)
@@ -753,24 +710,5 @@ Proof.
     reflexivity. 
   Case "n = S n'".
     simpl. rewrite -> IHn'. reflexivity.   Qed.
-
-(** **** Exercise: 2 stars, advanced (plus_comm_informal)  *)
-(** Translate your solution for [plus_comm] into an informal proof. *)
-
-(** Theorem: Addition is commutative.
- 
-    Proof: (* FILL IN HERE *)
-*)
-(** [] *)
-
-(** **** Exercise: 2 stars, optional (beq_nat_refl_informal)  *)
-(** Write an informal proof of the following theorem, using the
-    informal proof of [plus_assoc] as a model.  Don't just
-    paraphrase the Coq tactics into English!
- 
-    Theorem: [true = beq_nat n n] for any [n].
-    
-    Proof: (* FILL IN HERE *) 
-[] *)
 
 (** $Date: 2014-12-31 15:31:47 -0500 (Wed, 31 Dec 2014) $ *)
